@@ -90,3 +90,6 @@ class ContactResponse(ContactBase):
 class DistributionConfig(BaseModel):
     source_id: int
     operators: List[OperatorSourceWeightCreate]
+
+class ErrorResponse(BaseModel):
+    detail: str
