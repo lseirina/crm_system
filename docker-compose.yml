@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  crm-app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - SQLITE_DATABASE_URL=sqlite:///./data/crm_system.db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # # Опционально: сервис для тестов
+  # crm-tests:
+  #   build: .
+  #   command: ["pytest", "tests/", "-v"]
+  #   volumes:
+  #     - .:/app
+  #   depends_on:
+  #     - crm-app
+  #   environment:
+  #     - SQLITE_DATABASE_URL=sqlite:///./data/test.db
